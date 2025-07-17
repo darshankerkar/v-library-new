@@ -207,7 +207,7 @@ function Home() {
                 className="w-full h-auto rounded-lg shadow"
               />
             </div>
-            <div className="w-full md:w-[400px] mt-6 md:mt-[40px] md:ml-[50px] text-justify text-base md:text-lg mb-[190px]">
+            <div className="w-full md:w-[400px] mt-6 md:mt-[40px] md:ml-[50px] text-justify text-base md:text-lg mb-[190px] flex flex-col items-center md:items-start"> {/* Added flex-col items-center for mobile centering */}
               <p>
                 Welcome to the VIT Mumbai Digital Library Portal - a smarter,
                 faster way to access your campus library. Students can easily
@@ -221,9 +221,9 @@ function Home() {
                 digital library starts here.
               </p>
               <button
-                className="btn1 bg-amber-500 text-amber-50 rounded-[8px] mt-6 ml-18 pl-23 pr-23 pt-2 pb-2"
+                className="btn1 bg-amber-500 text-amber-50 rounded-[8px] mt-6 px-6 py-2 w-98" // Adjusted padding for better look, removed fixed ml-18 pl-23 pr-23 pt-2 pb-2
                 onClick={() => navigate("/select")} // Replace '/select' with your route to SelectPage
-                style={{borderRadius:"8px", marginLeft:"55px"}}
+                style={{ borderRadius: "8px" }} // Keeping inline style for border-radius as it's already there
               >
                 <b>Get Started</b>
               </button>
@@ -355,7 +355,7 @@ function Home() {
           <br />
           <br />
           <div className="content3">
-            <div className="wrapper flex pr-25">
+            <div className="wrapper flex flex-col md:flex-row md:pr-25 items-center md:items-start justify-center"> {/* Added flex-col and items-center for mobile */}
               <div className="text3">
                 <div className="bg-white shadow-md rounded-xl p-6 border border-gray-200 max-w-[550px] mt-10 md:ml-[100px] mx-auto md:mx-0">
                   <h1 className="text-2xl md:text-[40px] font-bold mb-6 text-left">
@@ -395,8 +395,14 @@ function Home() {
                   </ul>
                 </div>
               </div>
-              <div className="pictures3 flex ml-[30px]">
-                <div className="hor-images">
+              <div className="pictures3 flex flex-col md:flex-row md:ml-[30px] mt-8 md:mt-10 items-center"> {/* Added flex-col and items-center for mobile layout */}
+                {/* Display only one image on phones, hide others */}
+                <img
+                  src="readingv.jpg" // Keeping readingv.jpg for mobile
+                  className="w-[300px] h-[350px] md:w-[400px] md:h-[520px] mb-4 md:mb-0 md:ml-[20px] object-cover block md:hidden"
+                  alt="Reading"
+                />
+                <div className="hidden md:flex hor-images md:flex-col"> {/* Hidden on mobile, flex-col on desktop */}
                   <img
                     src="reading1.jpg"
                     style={{
@@ -404,19 +410,24 @@ function Home() {
                       height: "250px",
                       marginBottom: "20px",
                     }}
+                    alt="Reading"
                   />
                   <img
                     src="reading2.jpg"
                     style={{ width: "400px", height: "250px" }}
+                    alt="Reading"
                   />
                 </div>
-                <img
+                 {/* Display readingv.jpg for larger screens */}
+                 <img
                   src="readingv.jpg"
+                  className="hidden md:block" // Hidden on mobile, block on desktop
                   style={{
                     width: "400px",
                     height: "520px",
                     marginLeft: "20px",
                   }}
+                  alt="Reading"
                 />
               </div>
             </div>
