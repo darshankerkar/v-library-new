@@ -109,52 +109,112 @@ function Magazines() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-[#424593] text-white pt-8 pb-4 px-4 md:px-0 mt-auto">
+      {/* Sticky Footer */}
+      <footer className="bg-[#424593] text-white pt-8 pb-4 px-4 md:px-0  bottom-0 w-full z-50">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-8">
+          {/* Logo and Subscribe */}
           <div className="flex flex-col items-center md:items-start md:w-1/4 mb-8 md:mb-0">
             <div className="flex flex-col sm:flex-row items-center md:items-start mb-6">
-              <img src="/Logo-VIT.png" alt="VIT Logo" className="h-16 sm:h-20 mr-0 sm:mr-3 mb-2 sm:mb-0" />
+              <img
+                src="/Logo-VIT.png"
+                alt="VIT Logo"
+                className="h-16 sm:h-20 mr-0 sm:mr-3 mb-2 sm:mb-0"
+              />
             </div>
             <form className="flex w-full max-w-xs mt-2">
-              <input type="email" placeholder="Enter email..." className="rounded-l-md px-4 py-2 w-full text-gray-800 focus:outline-none" style={{ backgroundColor: "white" }} />
-              <button type="submit" className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 rounded-r-md font-semibold">Submit</button>
+              <input
+                type="email"
+                placeholder="Enter email..."
+                className="rounded-l-md px-4 py-2 w-full text-gray-800 focus:outline-none"
+                style={{ backgroundColor: "white" }}
+              />
+              <button
+                type="submit"
+                className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 rounded-r-md font-semibold"
+              >
+                Submit
+              </button>
             </form>
           </div>
+          {/* Contact Us */}
           <div className="md:w-1/4 mb-8 md:mb-0">
             <h3 className="font-bold text-lg sm:text-xl mb-4">Contact Us</h3>
             <ul className="space-y-2 text-base">
-              <li><i className="fa-solid fa-graduation-cap mr-2"></i>Vidyalankar Institute of Technology,<br />Vidyalankar College Marg, Wadala(E),<br />Mumbai-400 037</li>
-              <li><i className="fa-solid fa-phone mr-2"></i>+91 22 2416 11 40</li>
-              <li><i className="fa-solid fa-envelope mr-2"></i>Write to Us</li>
-              <li><i className="fa-solid fa-location-dot mr-2"></i>Get Directions</li>
+              <li>
+                <span className="mr-2">
+                  <i className="fa-solid fa-graduation-cap"></i>
+                </span>
+                Vidyalankar Institute of Technology,
+                <br />
+                Vidyalankar College Marg, Wadala(E),
+                <br />
+                Mumbai-400 037
+              </li>
+              <li>
+                <span className="mr-2">
+                  <i className="fa-solid fa-phone"></i>
+                </span>
+                +91 22 2416 11 40
+              </li>
+              <li>
+                <span className="mr-2">
+                  <i className="fa-solid fa-envelope"></i>
+                </span>
+                <a href="https://vit.edu.in/email-us/" className="hover:underline hover:text-blue-200">
+    Write to Us
+  </a>
+              </li>
+              <li>
+                <span className="mr-2">
+                  <i className="fa-solid fa-location-dot"></i>
+                </span>
+                <a href="https://vit.edu.in/getdirections/" className="hover:underline hover:text-blue-200">
+    Get Directions
+  </a>
+              </li>
             </ul>
           </div>
+          {/* Academics */}
           <div className="md:w-1/4 mb-8 md:mb-0">
             <h3 className="font-bold text-lg sm:text-xl mb-4">Academics</h3>
             <ul className="space-y-2 text-base">
-              <li>• Information Technology</li>
-              <li>• Computer Engineering</li>
-              <li>• Electronics and Computer Science</li>
-              <li>• Electronics and Telecommunication Engineering</li>
-              <li>• Biomedical Engineering</li>
-              <li>• Management Studies</li>
+              <li>
+      • <a href="https://vit.edu.in/information-technology/" className="hover:underline hover:text-blue-200">Information Technology</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/computer-engineering/" className="hover:underline hover:text-blue-200">Computer Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/electronics-and-computer-science/" className="hover:underline hover:text-blue-200">Electronics and Computer Science</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/electronics-telecommunication-engineering/" className="hover:underline hover:text-blue-200">Electronics and Telecommunication Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/biomedical-engineering/" className="hover:underline hover:text-blue-200">Biomedical Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/management/" className="hover:underline hover:text-blue-200">Management Studies</a>
+    </li>
             </ul>
           </div>
+          {/* Website */}
           <div className="md:w-1/4">
             <h3 className="font-bold text-lg sm:text-xl mb-4">Website</h3>
             <ul className="space-y-2 text-base">
-              <li>• Home</li>
-              <li>• Who We are</li>
-              <li>• Contact Us</li>
-              <li>• Terms & Conditions</li>
-              <li>• Privacy Policy</li>
-              <li>• R&amp;D</li>
+              <li>• <a href="https://vit.edu.in/" className="hover:underline hover:text-blue-200">Home</a></li>
+              <li>• <a href="https://vit.edu.in/about-us/" className="hover:underline hover:text-blue-200">Who We Are</a></li>
+              <li>• <a href="https://vit.edu.in/contact/" className="hover:underline hover:text-blue-200">Contact Us</a></li>
+              <li>• <a href="https://vit.edu.in/terms-condition/" className="hover:underline hover:text-blue-200">Terms & Conditions</a></li>
+              <li>• <a href="https://vit.edu.in/privacy-policy/" className="hover:underline hover:text-blue-200">Privacy Policy</a></li>
+              <li>• <a href="https://vit.edu.in/rnd/  " className="hover:underline hover:text-blue-200">R&amp;D</a></li>
             </ul>
           </div>
         </div>
         <hr className="my-6 border-blue-200" />
-        <div className="text-center text-base">© 2025 All Rights Reserved.</div>
+        <div className="text-center text-base">
+          © 2025 All Rights Reserved.
+        </div>
       </footer>
     </div>
   );

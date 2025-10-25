@@ -36,7 +36,7 @@ function Books() {
     "/Book5.jpg",
     "/Book6.jpg",
     "/Book7.jpeg",
-    "/Book8.jpeg",
+    
   ];
 
   return (
@@ -290,13 +290,17 @@ function Books() {
                 <span className="mr-2">
                   <i className="fa-solid fa-envelope"></i>
                 </span>
-                Write to Us
+                <a href="https://vit.edu.in/email-us/" className="hover:underline hover:text-blue-200">
+    Write to Us
+  </a>
               </li>
               <li>
                 <span className="mr-2">
                   <i className="fa-solid fa-location-dot"></i>
                 </span>
-                Get Directions
+                <a href="https://vit.edu.in/getdirections/" className="hover:underline hover:text-blue-200">
+    Get Directions
+  </a>
               </li>
             </ul>
           </div>
@@ -304,24 +308,36 @@ function Books() {
           <div className="md:w-1/4 mb-8 md:mb-0">
             <h3 className="font-bold text-lg sm:text-xl mb-4">Academics</h3>
             <ul className="space-y-2 text-base">
-              <li>• Information Technology</li>
-              <li>• Computer Engineering</li>
-              <li>• Electronics and Computer Science</li>
-              <li>• Electronics and Telecommunication Engineering</li>
-              <li>• Biomedical Engineering</li>
-              <li>• Management Studies</li>
+              <li>
+      • <a href="https://vit.edu.in/information-technology/" className="hover:underline hover:text-blue-200">Information Technology</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/computer-engineering/" className="hover:underline hover:text-blue-200">Computer Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/electronics-and-computer-science/" className="hover:underline hover:text-blue-200">Electronics and Computer Science</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/electronics-telecommunication-engineering/" className="hover:underline hover:text-blue-200">Electronics and Telecommunication Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/biomedical-engineering/" className="hover:underline hover:text-blue-200">Biomedical Engineering</a>
+    </li>
+    <li>
+      • <a href="https://vit.edu.in/management/" className="hover:underline hover:text-blue-200">Management Studies</a>
+    </li>
             </ul>
           </div>
           {/* Website */}
           <div className="md:w-1/4">
             <h3 className="font-bold text-lg sm:text-xl mb-4">Website</h3>
             <ul className="space-y-2 text-base">
-              <li>• Home</li>
-              <li>• Who We are</li>
-              <li>• Contact Us</li>
-              <li>• Terms & Conditions</li>
-              <li>• Privacy Policy</li>
-              <li>• R&amp;D</li>
+              <li>• <a href="https://vit.edu.in/" className="hover:underline hover:text-blue-200">Home</a></li>
+              <li>• <a href="https://vit.edu.in/about-us/" className="hover:underline hover:text-blue-200">Who We Are</a></li>
+              <li>• <a href="https://vit.edu.in/contact/" className="hover:underline hover:text-blue-200">Contact Us</a></li>
+              <li>• <a href="https://vit.edu.in/terms-condition/" className="hover:underline hover:text-blue-200">Terms & Conditions</a></li>
+              <li>• <a href="https://vit.edu.in/privacy-policy/" className="hover:underline hover:text-blue-200">Privacy Policy</a></li>
+              <li>• <a href="https://vit.edu.in/rnd/  " className="hover:underline hover:text-blue-200">R&amp;D</a></li>
             </ul>
           </div>
         </div>
