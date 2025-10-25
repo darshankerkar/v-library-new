@@ -110,19 +110,41 @@ function Books() {
         >
           Books
         </h1>
+
+
+
+
         <div className="bg-white rounded-2xl shadow p-8 max-w-[90vw] mx-auto">
-          <Slider {...settings}>
-            {books.map((src, idx) => (
-              <div key={idx} className="flex justify-center items-center">
-                <img
-                  src={src}
-                  alt={`Book ${idx + 1}`}
-                  className="h-[250px] w-auto object-contain rounded shadow"
-                />
-              </div>
-            ))}
-          </Slider>
+  <Slider {...settings}>
+    {books.map((src, idx) => {
+      // Assuming your PDFs are named the same as images but with .pdf
+      const pdfPath = src.replace(/\.(jpe?g|png)$/, ".pdf"); 
+      return (
+        <div key={idx} className="flex justify-center items-center relative group">
+          <img
+            src={src}
+            alt={`Book ${idx + 1}`}
+            className="h-[250px] w-auto object-contain rounded shadow"
+          />
+          {/* Overlay */}
+          <a
+            href={pdfPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 text-white font-semibold text-lg rounded transition-opacity"
+          >
+            Open PDF
+          </a>
         </div>
+      );
+    })}
+  </Slider>
+</div>
+
+
+
+
+
 
         {/* Search Box */}
         <div className="mt-12 flex flex-col md:flex-row gap-8 justify-center">
