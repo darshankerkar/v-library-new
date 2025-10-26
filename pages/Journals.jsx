@@ -65,6 +65,9 @@ function Journals() {
           </div>
           {/* Desktop Menu */}
           <div className="hidden md:flex flex-1 items-center gap-x-8 ">
+            <a href="/dashboard" className="text-white hover:text-blue-500 text-lg">
+              <u>Dashboard</u>
+            </a>
             <a href="/books" className="text-white hover:text-blue-500 text-lg">
               <u>Books</u>
             </a>
@@ -123,6 +126,9 @@ function Journals() {
         {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden bg-[#424593] w-full flex flex-col items-center z-40 sticky top-[70px]">
+            <a href="/dashboard" className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
+              <u>Dashboard</u>
+            </a>
             <a href="/books" className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
               <u>Books</u>
             </a>

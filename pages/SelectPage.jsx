@@ -26,6 +26,7 @@ function SelectPage() {
           <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
         </div>
         <div className="hidden md:flex flex-1 items-center gap-x-8">
+          <a href="/dashboard" className="text-white hover:text-blue-500 text-lg"><u>Dashboard</u></a>
           <a href="/books" className="text-white hover:text-blue-500 text-lg"><u>Books</u></a>
           <a href="/journals" className="text-white hover:text-blue-500 text-lg"><u>Journals</u></a>
           <a href="/guides" className="text-white hover:text-blue-500 text-lg"><u>Guides</u></a>

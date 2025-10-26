@@ -249,6 +249,38 @@ function SearchBooks() {
     return wishlist.some((b) => b.id === book.id);
   };
 
+  const handleBorrow = (book, days) => {
+    const borrowDate = new Date();
+    const dueDate = new Date(borrowDate.getTime() + days * 24 * 60 * 60 * 1000);
+    
+    const borrowedBook = {
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      cover: book.cover,
+      borrowDate: borrowDate.toLocaleDateString(),
+      dueDate: dueDate.toLocaleDateString(),
+      days: days,
+      category: book.category,
+    };
+
+    // Save to localStorage
+    const borrowed = JSON.parse(localStorage.getItem("borrowed") || "[]");
+    borrowed.push(borrowedBook);
+    localStorage.setItem("borrowed", JSON.stringify(borrowed));
+
+    // Show success message
+    showToast(`"${book.title}" borrowed for ${days} days!`, "success");
+    
+    // Close modal
+    setSelectedBook(null);
+    
+    // Navigate to dashboard after a short delay
+    setTimeout(() => {
+      window.location.href = "/dashboard";
+    }, 1500);
+  };
+
   return (
     <div className="outer-div bg-[#DFEDF5] min-h-screen flex flex-col">
       {/* Sticky Navbar */}
@@ -258,6 +290,9 @@ function SearchBooks() {
         </div>
         {/* Desktop Menu */}
         <div className="hidden md:flex flex-1 items-center gap-x-8">
+          <a href="/dashboard" className="text-white hover:text-blue-500 text-lg">
+            <u>Dashboard</u>
+          </a>
           <a href="/books" className="text-white hover:text-blue-500 text-lg">
             <u>Books</u>
           </a>
@@ -474,6 +509,33 @@ function SearchBooks() {
                     <FaHeart className="inline mr-2" />
                     {isInWishlist(selectedBook) ? "Remove from Wishlist" : "Add to Wishlist"}
                   </button>
+                  
+                  {/* Borrow Buttons */}
+                  {selectedBook.availability === "Available" && (
+                    <div className="mt-4">
+                      <p className="font-semibold text-lg mb-3">Borrow Duration:</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        <button
+                          onClick={() => handleBorrow(selectedBook, 15)}
+                          className="bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                        >
+                          15 Days
+                        </button>
+                        <button
+                          onClick={() => handleBorrow(selectedBook, 30)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                        >
+                          30 Days
+                        </button>
+                        <button
+                          onClick={() => handleBorrow(selectedBook, 90)}
+                          className="bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg transition-colors font-semibold"
+                        >
+                          3 Months
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div>

@@ -1,10 +1,57 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { FaSearch, FaPlusCircle } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaSearch, FaPlusCircle, FaBell } from "react-icons/fa";
 
 function Dashboard() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [showNotification, setShowNotification] = useState(false);
+
+  // Load borrowed books from localStorage
+  useEffect(() => {
+    const borrowed = JSON.parse(localStorage.getItem("borrowed") || "[]");
+    setBorrowedBooks(borrowed);
+    
+    // Check if any books are due soon (within 7 days) or overdue
+    const today = new Date();
+    const hasUrgent = borrowed.some((book) => {
+      const dueDate = new Date(book.dueDate);
+      const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+      return daysLeft <= 7;
+    });
+    
+    if (hasUrgent && borrowed.length > 0) {
+      setShowNotification(true);
+    }
+  }, []);
+
+  const handleReturn = (bookIndex) => {
+    const book = borrowedBooks[bookIndex];
+    
+    // Remove from localStorage
+    const updated = borrowedBooks.filter((_, index) => index !== bookIndex);
+    localStorage.setItem("borrowed", JSON.stringify(updated));
+    
+    // Update state
+    setBorrowedBooks(updated);
+    
+    // Show success message
+    alert(`"${book.title}" has been successfully returned! Thank you for returning it early.`);
+    
+    // Hide notification if no books left or no urgent books
+    if (updated.length === 0) {
+      setShowNotification(false);
+    } else {
+      const today = new Date();
+      const hasUrgent = updated.some((b) => {
+        const dueDate = new Date(b.dueDate);
+        const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+        return daysLeft <= 7;
+      });
+      setShowNotification(hasUrgent);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#a3f0ff] flex flex-col">
@@ -15,8 +62,8 @@ function Dashboard() {
         </div>
         {/* Desktop Menu */}
         <div className="hidden md:flex flex-1 items-center gap-x-8">
-          {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Reserves"].map((item) => (
-            <a key={item} href={`/${item.toLowerCase()}`} className="text-white hover:text-blue-500 text-lg">
+          {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Search Books", "Reserves"].map((item) => (
+            <a key={item} href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-white hover:text-blue-500 text-lg">
               <u>{item}</u>
             </a>
           ))}
@@ -44,8 +91,8 @@ function Dashboard() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-[#424593] w-full flex flex-col items-center z-40 sticky top-[70px]">
-          {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Reserves"].map((item) => (
-            <a key={item} href={`/${item.toLowerCase()}`} className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
+          {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Search Books", "Reserves"].map((item) => (
+            <a key={item} href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
               <u>{item}</u>
             </a>
           ))}
@@ -55,10 +102,28 @@ function Dashboard() {
         </div>
       )}
 
+      {/* Notification Banner */}
+      {showNotification && borrowedBooks.length > 0 && (
+        <div className="bg-red-600 text-white p-4 mx-6 mt-2 rounded-lg flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <FaBell className="text-2xl" />
+            <span className="font-semibold">
+              Reminder: You have books due soon or overdue! Please return them.
+            </span>
+          </div>
+          <button
+            onClick={() => setShowNotification(false)}
+            className="text-white hover:text-gray-200 font-bold text-xl"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* // write your code here */}
       <main className="flex-grow p-6 md:p-12">
         <h1 className="text-4xl md:text-5xl font-bold text-black mb-2 font-serif">Welcome, [User]</h1>
-        <p className="text-lg text-black mb-6 font-serif">Check Proposal History and Status</p>
+        <p className="text-lg text-black mb-6 font-serif">Your Borrowed Books</p>
 
         {/* Books Borrowed Section */}
         <section className="mb-8">
@@ -70,19 +135,61 @@ function Dashboard() {
               <thead className="bg-gray-200">
                 <tr>
                   <th className="border border-black px-4 py-2">Book Name</th>
-                  <th className="border border-black px-4 py-2">Date Purchased</th>
-                  <th className="border border-black px-4 py-2">Return Date</th>
-                  <th className="border border-black px-4 py-2">View Details</th>
+                  <th className="border border-black px-4 py-2">Author</th>
+                  <th className="border border-black px-4 py-2">Borrow Date</th>
+                  <th className="border border-black px-4 py-2">Due Date</th>
+                  <th className="border border-black px-4 py-2">Duration</th>
+                  <th className="border border-black px-4 py-2">Status</th>
+                  <th className="border border-black px-4 py-2">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {/* Placeholder row */}
-                <tr className="bg-gray-200">
-                  <td className="border border-black px-4 py-2">–</td>
-                  <td className="border border-black px-4 py-2">–</td>
-                  <td className="border border-black px-4 py-2">–</td>
-                  <td className="border border-black px-4 py-2">–</td>
-                </tr>
+                {borrowedBooks.length === 0 ? (
+                  <tr className="bg-gray-200">
+                    <td colSpan="7" className="border border-black px-4 py-4">No books borrowed yet</td>
+                  </tr>
+                ) : (
+                  borrowedBooks.map((book, index) => {
+                    const today = new Date();
+                    const dueDate = new Date(book.dueDate);
+                    const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+                    const isOverdue = daysLeft < 0;
+                    const isDueSoon = daysLeft <= 7 && daysLeft >= 0;
+                    
+                    return (
+                      <tr key={index} className="bg-gray-100 hover:bg-gray-200">
+                        <td className="border border-black px-4 py-2 font-semibold">{book.title}</td>
+                        <td className="border border-black px-4 py-2">{book.author}</td>
+                        <td className="border border-black px-4 py-2">{book.borrowDate}</td>
+                        <td className="border border-black px-4 py-2">{book.dueDate}</td>
+                        <td className="border border-black px-4 py-2">{book.days} Days</td>
+                        <td className="border border-black px-4 py-2">
+                          {isOverdue ? (
+                            <span className="bg-red-500 text-white px-3 py-1 rounded-full font-semibold">
+                              Overdue
+                            </span>
+                          ) : isDueSoon ? (
+                            <span className="bg-yellow-500 text-white px-3 py-1 rounded-full font-semibold">
+                              Due Soon ({daysLeft} days)
+                            </span>
+                          ) : (
+                            <span className="bg-green-500 text-white px-3 py-1 rounded-full font-semibold">
+                              Active
+                            </span>
+                          )}
+                        </td>
+                        <td className="border border-black px-4 py-2">
+                          <button
+                            onClick={() => handleReturn(index)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors font-semibold"
+                          >
+                            Return
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
@@ -95,16 +202,28 @@ function Dashboard() {
           </h2>
           <button
             className="mt-3 mb-3 bg-[#5b33eb] hover:bg-[#4829c5] text-white font-semibold px-6 py-3 rounded-lg text-lg flex items-center gap-2"
-            onClick={() => navigate("/books")}
+            onClick={() => navigate("/search-books")}
           >
             Borrow a Book <FaPlusCircle />
           </button>
         </section>
 
         {/* Reminder */}
-        <p className="text-sm text-black font-semibold mt-6 font-serif">
-          <span className="text-red-600 text-lg">❗</span> Reminder: Use the library system responsibly. Return books on time and maintain proper decorum to avoid penalties.
-        </p>
+        <div className="bg-blue-100 border-l-4 border-blue-500 p-4 mt-6 rounded">
+          <p className="text-sm text-black font-semibold font-serif">
+            <span className="text-blue-600 text-lg">ℹ️</span> <strong>Reminder:</strong> Use the library system responsibly. Return books on time and maintain proper decorum to avoid penalties.
+          </p>
+          {borrowedBooks.some(book => {
+            const today = new Date();
+            const dueDate = new Date(book.dueDate);
+            const daysLeft = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+            return daysLeft <= 3 && daysLeft >= 0;
+          }) && (
+            <p className="text-sm text-red-600 font-bold mt-2">
+              ⚠️ You have books due within 3 days! Please return them soon.
+            </p>
+          )}
+        </div>
       </main>
 
       {/* Sticky Footer */}
