@@ -31,6 +31,7 @@ function SelectPage() {
           <a href="/guides" className="text-white hover:text-blue-500 text-lg"><u>Guides</u></a>
           <a href="/magazines" className="text-white hover:text-blue-500 text-lg"><u>Magazines</u></a>
           <a href="/dictionaries" className="text-white hover:text-blue-500 text-lg"><u>Dictionaries</u></a>
+          <a href="/search-books" className="text-white hover:text-blue-500 text-lg"><u>Search Books</u></a>
           <a href="/reserves" className="text-white hover:text-blue-500 text-lg"><u>Reserves</u></a>
         </div>
         <div className="hidden md:flex items-center ml-auto">

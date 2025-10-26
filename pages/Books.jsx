@@ -29,14 +29,21 @@ function Books() {
   };
 
   const books = [
-    "/Book1.jpeg",
-    "/Book2.jpg",
-    "/Book3.jpg",
-    "/Book4.jpg",
-    "/Book5.jpg",
-    "/Book6.jpg",
-    "/Book7.jpeg",
-    
+    { cover: "/Book1.jpeg", hasPdf: true },
+    { cover: "/Book2.jpg", hasPdf: true },
+    { cover: "/Book3.jpg", hasPdf: true },
+    { cover: "/Book4.jpg", hasPdf: true },
+    { cover: "/Book5.jpg", hasPdf: true },
+    { cover: "/Book6.jpg", hasPdf: false },
+    { cover: "/Book7.jpeg", hasPdf: true },
+    { cover: "/Book8.jpg", hasPdf: false },
+    { cover: "/Book9.jpg", hasPdf: false },
+    { cover: "/Book10.jpg", hasPdf: false },
+    { cover: "/Book11.jpg", hasPdf: false },
+    { cover: "/Book12.jpg", hasPdf: false },
+    { cover: "/Book13.jpg", hasPdf: false },
+    { cover: "/Book14.jpg", hasPdf: false },
+    { cover: "/Book15.jpg", hasPdf: false },
   ];
 
   return (
@@ -79,6 +86,12 @@ function Books() {
             <u>Dictionaries</u>
           </a>
           <a
+            href="/search-books"
+            className="text-white hover:text-blue-500 text-lg"
+          >
+            <u>Search Books</u>
+          </a>
+          <a
             href="/reserves"
             className="text-white hover:text-blue-500 text-lg"
           >
@@ -116,25 +129,30 @@ function Books() {
 
         <div className="bg-white rounded-2xl shadow p-8 max-w-[90vw] mx-auto">
   <Slider {...settings}>
-    {books.map((src, idx) => {
-      // Assuming your PDFs are named the same as images but with .pdf
-      const pdfPath = src.replace(/\.(jpe?g|png)$/, ".pdf"); 
+    {books.map((book, idx) => {
+      const pdfPath = book.cover.replace(/\.(jpe?g|png)$/, ".pdf");
       return (
         <div key={idx} className="flex justify-center items-center relative group">
           <img
-            src={src}
+            src={book.cover}
             alt={`Book ${idx + 1}`}
             className="h-[250px] w-auto object-contain rounded shadow"
           />
           {/* Overlay */}
-          <a
-            href={pdfPath}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 text-white font-semibold text-lg rounded transition-opacity"
-          >
-            Open PDF
-          </a>
+          {book.hasPdf ? (
+            <a
+              href={pdfPath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 text-white font-semibold text-lg rounded transition-opacity"
+            >
+              Read PDF
+            </a>
+          ) : (
+            <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 text-white font-semibold text-lg rounded transition-opacity">
+              No PDF Available
+            </div>
+          )}
         </div>
       );
     })}
@@ -164,20 +182,23 @@ function Books() {
                 </h2>
               </div>
               {/* Increase search box height */}
-              <h3 style={{fontFamily:"Caveat",marginLeft:"80px",marginTop:"75px"}} >Find What You’re Looking For :</h3>
+              <h3 style={{fontFamily:"Caveat",marginLeft:"80px",marginTop:"75px"}} >Find What You're Looking For :</h3>
               <div className="flex-1 flex flex-col justify-center p-8 pt-[0px]">
-                <div
-                  className="flex items-center bg-[#f1f7fd] rounded-full border border-gray-300 px-6"
-                  style={{ height: "54px" }}
-                >
-                  <input
-                    type="text"
-                    placeholder="...for books and ebooks"
-                    className="bg-transparent flex-1 outline-none text-lg"
-                    style={{ height: "100%" }}
-                  />
-                  <i className="fa-solid fa-magnifying-glass text-gray-500 text-xl ml-2"></i>
-                </div>
+                <a href="/search-books">
+                  <div
+                    className="flex items-center bg-[#f1f7fd] rounded-full border border-gray-300 px-6 cursor-pointer hover:border-blue-500 transition-colors"
+                    style={{ height: "54px" }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="...for books and ebooks"
+                      className="bg-transparent flex-1 outline-none text-lg pointer-events-none"
+                      style={{ height: "100%" }}
+                      readOnly
+                    />
+                    <i className="fa-solid fa-magnifying-glass text-gray-500 text-xl ml-2"></i>
+                  </div>
+                </a>
               </div>
             </div>
           </div>

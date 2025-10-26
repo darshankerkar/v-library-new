@@ -13,6 +13,7 @@ import './index.css';
 import Magazines from "../pages/Magazines";
 import Dictionaries from "../pages/Dictionaries";
 import Reserves from "../pages/Reserves";
+import SearchBooks from "../pages/SearchBooks";
 //Other imports... from folders
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/guides" element={<Guides/>} ></Route>
           <Route path="/magazines" element={<Magazines/>} ></Route>
           <Route path="/dictionaries" element={<Dictionaries/>} ></Route>
+          <Route path="/search-books" element={<SearchBooks/>} ></Route>
           <Route path="/reserves" element={<Reserves/>} ></Route>
           <Route path="/dashboard" element={<Dashboard/>} ></Route>
           <Route path="/librarian" element={<LibrarianPage/>} ></Route>

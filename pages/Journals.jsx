@@ -80,6 +80,9 @@ function Journals() {
             <a href="/dictionaries" className="text-white hover:text-blue-500 text-lg">
               <u>Dictionaries</u>
             </a>
+            <a href="/search-books" className="text-white hover:text-blue-500 text-lg">
+              <u>Search Books</u>
+            </a>
             <a href="/reserves" className="text-white hover:text-blue-500 text-lg">
               <u>Reserves</u>
             </a>
@@ -134,6 +137,9 @@ function Journals() {
             </a>
             <a href="/dictionaries" className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
               <u>Dictionaries</u>
+            </a>
+            <a href="/search-books" className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
+              <u>Search Books</u>
             </a>
             <a href="/reserves" className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200">
               <u>Reserves</u>
