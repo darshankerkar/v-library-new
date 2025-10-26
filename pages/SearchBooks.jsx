@@ -308,7 +308,7 @@ function SearchBooks() {
           <a href="/dictionaries" className="text-white hover:text-blue-500 text-lg">
             <u>Dictionaries</u>
           </a>
-          <a href="/search-books" className="text-white hover:text-blue-500 text-lg bg-blue-700 px-2 py-1 rounded">
+          <a href="/search-books" className="text-white hover:text-blue-500 text-lg">
             <u>Search Books</u>
           </a>
           <a href="/reserves" className="text-white hover:text-blue-500 text-lg">
