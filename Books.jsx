@@ -206,7 +206,7 @@ function Books() {
               <h3 className="text-2xl font-serif mb-4">New Titles</h3>
               <ul className="list-disc list-inside text-lg mb-6">
                 <li>
-                  <a href="#" className="text-blue-600 underline">
+                  <a href="https://www.barnesandnoble.com/" className="text-blue-600 underline">
                     All new titles
                   </a>
                 </li>
