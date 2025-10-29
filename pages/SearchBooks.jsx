@@ -14,6 +14,17 @@ const showToast = (message, type) => {
   }, 2000);
 };
 
+// Subjects available for filtering (fixed list even if no books yet)
+const subjects = [
+  "Database",
+  "Web Development",
+  "Telecommunication",
+  "Cloud Computing",
+  "Operating Systems",
+  "Software Engineering",
+  "Distributed Systems",
+];
+
 // Sample book data
 const sampleBooks = [
   {
@@ -21,6 +32,9 @@ const sampleBooks = [
     title: "Introduction to Algorithms",
     author: "Thomas H. Cormen",
     isbn: "978-0262046305",
+    subject: "Software Engineering",
+    totalCopies: 14,
+    availableCopies: 6,
     availability: "Available",
     cover: "/Book1.jpeg",
     description: "The leading textbook on algorithms worldwide",
@@ -33,6 +47,9 @@ const sampleBooks = [
     title: "Clean Code: A Handbook of Agile Software Craftsmanship",
     author: "Robert C. Martin",
     isbn: "978-0132350884",
+    subject: "Software Engineering",
+    totalCopies: 10,
+    availableCopies: 0,
     availability: "Not Available",
     cover: "/Book2.jpg",
     description: "A collection of techniques for writing clean code",
@@ -45,6 +62,9 @@ const sampleBooks = [
     title: "The Pragmatic Programmer",
     author: "Andrew Hunt, David Thomas",
     isbn: "978-0201616224",
+    subject: "Software Engineering",
+    totalCopies: 9,
+    availableCopies: 3,
     availability: "Available",
     cover: "/Book3.jpg",
     description: "Your journey to mastery",
@@ -57,6 +77,9 @@ const sampleBooks = [
     title: "Design Patterns: Elements of Reusable Object-Oriented Software",
     author: "Gang of Four",
     isbn: "978-0201633612",
+    subject: "Software Engineering",
+    totalCopies: 8,
+    availableCopies: 5,
     availability: "Available",
     cover: "/Book4.jpg",
     description: "The classic book on design patterns",
@@ -69,6 +92,9 @@ const sampleBooks = [
     title: "JavaScript: The Definitive Guide",
     author: "David Flanagan",
     isbn: "978-1491952026",
+    subject: "Web Development",
+    totalCopies: 12,
+    availableCopies: 7,
     availability: "Available",
     cover: "/Book5.jpg",
     description: "Master the world's most-used programming language",
@@ -81,6 +107,9 @@ const sampleBooks = [
     title: "Deep Learning",
     author: "Ian Goodfellow, Yoshua Bengio",
     isbn: "978-0262035613",
+    subject: "Software Engineering",
+    totalCopies: 6,
+    availableCopies: 0,
     availability: "Not Available",
     cover: "/Book6.jpg",
     description: "An introduction to a broad range of topics in deep learning",
@@ -93,6 +122,9 @@ const sampleBooks = [
     title: "Structure and Interpretation of Computer Programs",
     author: "Harold Abelson, Gerald Jay Sussman",
     isbn: "978-0262510875",
+    subject: "Software Engineering",
+    totalCopies: 11,
+    availableCopies: 4,
     availability: "Available",
     cover: "/Book7.jpeg",
     description: "The classic introduction to computer science",
@@ -105,6 +137,9 @@ const sampleBooks = [
     title: "Database System Concepts",
     author: "Abraham Silberschatz, Henry Korth",
     isbn: "978-0073523323",
+    subject: "Database",
+    totalCopies: 10,
+    availableCopies: 6,
     availability: "Available",
     cover: "/Book8.jpg",
     description: "Fundamental database concepts",
@@ -117,6 +152,9 @@ const sampleBooks = [
     title: "Operating System Concepts",
     author: "Abraham Silberschatz, Peter Baer Galvin",
     isbn: "978-1119456339",
+    subject: "Operating Systems",
+    totalCopies: 13,
+    availableCopies: 9,
     availability: "Available",
     cover: "/Book9.jpg",
     description: "Comprehensive coverage of operating system principles",
@@ -129,6 +167,9 @@ const sampleBooks = [
     title: "Introduction to Machine Learning",
     author: "Ethem Alpaydin",
     isbn: "978-0262047466",
+    subject: "Cloud Computing",
+    totalCopies: 7,
+    availableCopies: 0,
     availability: "Not Available",
     cover: "/Book10.jpg",
     description: "A comprehensive introduction to machine learning",
@@ -141,6 +182,9 @@ const sampleBooks = [
     title: "Computer Networks and Communications",
     author: "Andrew S. Tanenbaum",
     isbn: "978-0130661029",
+    subject: "Telecommunication",
+    totalCopies: 9,
+    availableCopies: 2,
     availability: "Available",
     cover: "/Book11.jpg",
     description: "Comprehensive guide to computer networking",
@@ -153,6 +197,9 @@ const sampleBooks = [
     title: "Software Engineering: Principles and Practice",
     author: "Hans van Vliet",
     isbn: "978-0471731717",
+    subject: "Software Engineering",
+    totalCopies: 8,
+    availableCopies: 5,
     availability: "Available",
     cover: "/Book12.jpg",
     description: "Best practices in software development",
@@ -165,6 +212,9 @@ const sampleBooks = [
     title: "Network Security Essentials",
     author: "William Stallings",
     isbn: "978-0133370437",
+    subject: "Telecommunication",
+    totalCopies: 5,
+    availableCopies: 0,
     availability: "Not Available",
     cover: "/Book13.jpg",
     description: "Essential network security principles",
@@ -177,6 +227,9 @@ const sampleBooks = [
     title: "Distributed Systems: Concepts and Design",
     author: "George Coulouris",
     isbn: "978-0132143011",
+    subject: "Distributed Systems",
+    totalCopies: 10,
+    availableCopies: 8,
     availability: "Available",
     cover: "/Book14.jpg",
     description: "Understanding distributed computing systems",
@@ -189,6 +242,9 @@ const sampleBooks = [
     title: "Computer Architecture: A Quantitative Approach",
     author: "John L. Hennessy",
     isbn: "978-0123704900",
+    subject: "Operating Systems",
+    totalCopies: 7,
+    availableCopies: 4,
     availability: "Available",
     cover: "/Book15.jpg",
     description: "Fundamental computer architecture concepts",
@@ -204,6 +260,8 @@ function SearchBooks() {
   const [wishlist, setWishlist] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showWishlist, setShowWishlist] = useState(false);
+  const [selectedSubjects, setSelectedSubjects] = useState(new Set(subjects));
+  const [subjectMenuOpen, setSubjectMenuOpen] = useState(false);
 
   // Load wishlist from localStorage on component mount
   useEffect(() => {
@@ -222,14 +280,37 @@ function SearchBooks() {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
-    const filtered = sampleBooks.filter(
-      (book) =>
+    const filtered = sampleBooks.filter((book) => {
+      const matchesQuery =
         book.title.toLowerCase().includes(query) ||
         book.author.toLowerCase().includes(query) ||
         book.isbn.toLowerCase().includes(query) ||
-        book.category.toLowerCase().includes(query)
-    );
+        book.category.toLowerCase().includes(query) ||
+        (book.subject || "").toLowerCase().includes(query);
+      const matchesSubject = selectedSubjects.has(book.subject);
+      return matchesQuery && matchesSubject;
+    });
 
+    setFilteredBooks(filtered);
+  };
+
+  const toggleSubject = (subject) => {
+    const next = new Set(selectedSubjects);
+    if (next.has(subject)) next.delete(subject); else next.add(subject);
+    setSelectedSubjects(next);
+
+    // Re-run filter using the latest query and branches
+    const query = searchQuery.toLowerCase();
+    const filtered = sampleBooks.filter((book) => {
+      const matchesQuery =
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query) ||
+        book.isbn.toLowerCase().includes(query) ||
+        book.category.toLowerCase().includes(query) ||
+        (book.subject || "").toLowerCase().includes(query);
+      const matchesSubject = next.has(book.subject);
+      return matchesQuery && matchesSubject;
+    });
     setFilteredBooks(filtered);
   };
 
@@ -276,9 +357,10 @@ function SearchBooks() {
     setSelectedBook(null);
     
     // Navigate to dashboard after a short delay
-    setTimeout(() => {
-      window.location.href = "/dashboard";
-    }, 1500);
+  //   setTimeout(() => {
+  //     window.location.href = "/dashboard";
+  //   }, 1500);
+  // 
   };
 
   return (
@@ -386,77 +468,172 @@ function SearchBooks() {
         </h1>
 
         {/* Search Box */}
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-            <div className="flex items-center bg-[#f1f7fd] rounded-full border border-gray-300 px-6 mb-4">
-              <FaSearch className="text-gray-500 text-xl mr-3" />
-              <input
-                type="text"
-                placeholder="Search by title, author, ISBN, or category..."
-                value={searchQuery}
-                onChange={handleSearch}
-                className="bg-transparent flex-1 outline-none text-lg py-4"
-              />
+        <div className="max-w-6xl mx-auto mb-8">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="flex items-center bg-[#f1f7fd] rounded-full border border-gray-300 px-6 flex-1">
+                <FaSearch className="text-gray-500 text-xl mr-3" />
+                <input
+                  type="text"
+                  placeholder="Search by title, author, ISBN, category, or subject..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  className="bg-transparent flex-1 outline-none text-lg py-4"
+                />
+              </div>
+              {/* Subject multi-select dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setSubjectMenuOpen(!subjectMenuOpen)}
+                  className="w-full md:w-auto bg-[#f1f7fd] border border-gray-300 hover:border-blue-400 rounded-full px-4 py-3 text-sm text-gray-700"
+                >
+                  Subjects: {selectedSubjects.size === subjects.length ? 'All' : `${selectedSubjects.size} selected`}
+                </button>
+                {subjectMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-xl z-40 p-3 max-h-80 overflow-y-auto">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-semibold">Filter subjects</span>
+                      <div className="space-x-2">
+                        <button
+                          className="text-xs text-blue-600 hover:underline"
+                          onClick={() => {
+                            const next = new Set(subjects);
+                            setSelectedSubjects(next);
+                            const query = searchQuery.toLowerCase();
+                            const filtered = sampleBooks.filter((book) => {
+                              const matchesQuery =
+                                book.title.toLowerCase().includes(query) ||
+                                book.author.toLowerCase().includes(query) ||
+                                book.isbn.toLowerCase().includes(query) ||
+                                book.category.toLowerCase().includes(query) ||
+                                (book.subject || "").toLowerCase().includes(query);
+                              const matchesSubject = next.has(book.subject);
+                              return matchesQuery && matchesSubject;
+                            });
+                            setFilteredBooks(filtered);
+                          }}
+                        >
+                          Select all
+                        </button>
+                        <button
+                          className="text-xs text-gray-600 hover:underline"
+                          onClick={() => {
+                            const next = new Set();
+                            setSelectedSubjects(next);
+                            const query = searchQuery.toLowerCase();
+                            const filtered = sampleBooks.filter((book) => {
+                              const matchesQuery =
+                                book.title.toLowerCase().includes(query) ||
+                                book.author.toLowerCase().includes(query) ||
+                                book.isbn.toLowerCase().includes(query) ||
+                                book.category.toLowerCase().includes(query) ||
+                                (book.subject || "").toLowerCase().includes(query);
+                              const matchesSubject = next.has(book.subject);
+                              return matchesQuery && matchesSubject;
+                            });
+                            setFilteredBooks(filtered);
+                          }}
+                        >
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      {subjects.map((s) => (
+                        <label key={s} className="flex items-center gap-3 text-sm cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
+                          <input
+                            type="checkbox"
+                            className="h-4 w-4"
+                            checked={selectedSubjects.has(s)}
+                            onChange={() => toggleSubject(s)}
+                          />
+                          <span className="select-none">{s}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <p className="text-gray-600 text-center">
+            <p className="text-gray-600 text-center mt-3">
               Found {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''}
             </p>
           </div>
         </div>
 
-        {/* Books Grid */}
+        {/* Results with Sidebar Filter */}
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredBooks.map((book) => (
-              <div
-                key={book.id}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group"
-              >
-                <div className="relative">
-                  <img
-                    src={book.cover}
-                    alt={book.title}
-                    className="w-full h-64 object-cover"
-                  />
+          {/* Table */}
+          <section>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-left">
+                  <thead className="bg-gray-50 text-gray-700 text-sm">
+                    <tr>
+                      <th className="px-4 py-3">Book</th>
+                      <th className="px-4 py-3">Title</th>
+                      <th className="px-4 py-3">Author</th>
+                      <th className="px-4 py-3">Subject</th>
+                      <th className="px-4 py-3">Status</th>
+                      <th className="px-4 py-3">Copies</th>
+                      <th className="px-4 py-3">Wishlist</th>
+                      <th className="px-4 py-3">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 text-sm">
+                    {filteredBooks.map((book) => (
+                      <tr key={book.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3">
+                          <img src={book.cover} alt={book.title} className="w-12 h-16 object-cover rounded" />
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="font-semibold">{book.title}</div>
+                          <div className="text-xs text-gray-500">ISBN: {book.isbn}</div>
+                        </td>
+                        <td className="px-4 py-3">{book.author}</td>
+                        <td className="px-4 py-3">{book.subject}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                            book.availability === "Available"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}>
+                            {book.availability}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className="font-semibold">{book.availableCopies}</span>
+                          <span className="text-gray-500"> / {book.totalCopies}</span>
+                        </td>
+                        <td className="px-4 py-3">
                   <button
                     onClick={() => toggleWishlist(book)}
-                    className={`absolute top-2 right-2 p-2 rounded-full bg-white shadow-lg transition-all ${
-                      isInWishlist(book) 
-                        ? "text-red-500" 
-                        : "text-gray-400 hover:text-red-500"
-                    }`}
+                            className={`${isInWishlist(book) ? "text-red-500" : "text-gray-400 hover:text-red-500"}`}
+                            aria-label="Toggle wishlist"
                   >
                     <FaHeart />
                   </button>
-                  <div className={`absolute top-2 left-2 px-3 py-1 rounded-full text-xs font-semibold ${
-                    book.availability === "Available" 
-                      ? "bg-green-500 text-white" 
-                      : "bg-red-500 text-white"
-                  }`}>
-                    {book.availability}
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2">{book.title}</h3>
-                  <p className="text-gray-600 text-sm mb-2">by {book.author}</p>
-                  <p className="text-xs text-gray-500 mb-2">ISBN: {book.isbn}</p>
-                  <p className="text-xs text-gray-500 mb-3">{book.category} • {book.year}</p>
+                        </td>
+                        <td className="px-4 py-3">
                   <button
                     onClick={() => setSelectedBook(book)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded"
                   >
-                    View Details
+                            View
                   </button>
-                </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </div>
-
           {filteredBooks.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-600 text-xl">No books found matching your search.</p>
             </div>
           )}
+            </div>
+          </section>
         </div>
       </div>
 
@@ -486,7 +663,9 @@ function SearchBooks() {
                   <div className="space-y-2 mb-4">
                     <p><span className="font-semibold">ISBN:</span> {selectedBook.isbn}</p>
                     <p><span className="font-semibold">Category:</span> {selectedBook.category}</p>
+                    <p><span className="font-semibold">Subject:</span> {selectedBook.subject}</p>
                     <p><span className="font-semibold">Year:</span> {selectedBook.year}</p>
+                    <p><span className="font-semibold">Copies:</span> {selectedBook.availableCopies} / {selectedBook.totalCopies}</p>
                     <p>
                       <span className="font-semibold">Availability:</span>{" "}
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
