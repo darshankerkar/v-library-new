@@ -66,10 +66,6 @@ The app will be available at 👉 http://localhost:5173
 
 ---
 
-Got it 👍 — here’s your **GitHub-ready version** of that section with your repo name `v-library-new.git` properly updated everywhere:
-
----
-
 ### Contributing  
 Contributions are highly appreciated!  
 If you’d like to improve **VLibrary**, follow the steps below to contribute:  
