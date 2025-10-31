@@ -1,6 +1,7 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Navbar from "../src/components/Navbar";
 
 function Books() {
   const settings = {
@@ -48,78 +49,7 @@ function Books() {
 
   return (
     <div className="outer-div bg-[#DFEDF5] min-h-screen flex flex-col">
-      {/* Sticky Navbar */}
-      <div className="navbar bg-[#424593] px-4 md:px-8 flex items-center sticky top-0 z-50 w-full">
-        <div className="logo pr-4 md:pr-8 py-2 flex-shrink-0">
-          <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
-        </div>
-        {/* Desktop Menu */}
-        <div className="hidden md:flex flex-1 items-center gap-x-8 ">
-          <a
-            href="/dashboard"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Dashboard</u>
-          </a>
-          <a
-            href="/books"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Books</u>
-          </a>
-          <a
-            href="/journals"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Journals</u>
-          </a>
-          <a
-            href="/guides"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Guides</u>
-          </a>
-          <a
-            href="/magazines"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Magazines</u>
-          </a>
-          <a
-            href="/dictionaries"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Dictionaries</u>
-          </a>
-          <a
-            href="/search-books"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Search Books</u>
-          </a>
-          <a
-            href="/reserves"
-            className="text-white hover:text-blue-500 text-lg"
-          >
-            <u>Reserves</u>
-          </a>
-        </div>
-        {/* Desktop Search & Login */}
-        <div className="hidden md:flex items-center ml-auto">
-          <i className="fa-solid fa-magnifying-glass text-white text-lg mr-4"></i>
-          <div className="h-8 w-px bg-white mx-2"></div>
-          <div className="log-in py-2">
-            <a
-              href="/login"
-              className="text-white hover:text-blue-500 text-lg"
-            >
-              <u>Log in</u>
-            </a>
-          </div>
-        </div>
-        {/* Hamburger Icon (mobile only) */}
-        {/* ...your hamburger code here if needed... */}
-      </div>
+      <Navbar />
 
       {/* Main Content */}
       <div className="flex-1">

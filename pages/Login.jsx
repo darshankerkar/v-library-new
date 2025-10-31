@@ -1,14 +1,23 @@
 import React from "react";
-import { auth, provider } from "../src/firebaseConfig"; // Make sure the path is correct
+import { auth, provider } from "../src/firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      // Save user info to localStorage
+      localStorage.setItem('user', JSON.stringify({
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL
+      }));
       console.log("Google sign-in successful:", user);
-      // Optional: Redirect to dashboard or handle user data
+      navigate('/'); // Redirect to home page
     } catch (error) {
       console.error("Google sign-in error:", error);
     }

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Navbar from "../src/components/Navbar";
 import { FaSearch, FaPlusCircle, FaBell, FaBookOpen, FaExclamationCircle, FaHourglassHalf } from "react-icons/fa";
 
 // Simple toast notification component (Copied from SearchBooks logic)
@@ -42,7 +43,6 @@ const StatCard = ({ title, value, icon: Icon, colorClass, bgColorClass, hoverCol
 
 function Dashboard() {
     const navigate = useNavigate();
-    const [menuOpen, setMenuOpen] = useState(false);
     const [borrowedBooks, setBorrowedBooks] = useState([]);
     const [showNotification, setShowNotification] = useState(false);
     
@@ -95,65 +95,8 @@ function Dashboard() {
 
     return (
         <div className="outer-div bg-[#DFEDF5] min-h-screen flex flex-col font-inter">
-            {/* Sticky Navbar (Reusing style from SearchBooks) */}
-            <div className="navbar bg-[#424593] px-4 md:px-8 flex items-center sticky top-0 z-50 w-full">
-                <div className="logo pr-4 md:pr-8 py-2 flex-shrink-0">
-                    <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
-                </div>
-                {/* Desktop Menu */}
-                <div className="hidden md:flex flex-1 items-center gap-x-8">
-                    {/* Highlight Dashboard as active */}
-                    <a href="/dashboard" className="text-blue-200 hover:text-white text-lg font-bold">
-                        <u>Dashboard</u>
-                    </a>
-                    {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Search Books", "Reserves"].map((item) => (
-                        <a 
-                            key={item} 
-                            href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                            className={`text-white hover:text-blue-200 text-lg ${item === "Search Books" ? 'underline' : ''}`}
-                        >
-                            <u>{item}</u>
-                        </a>
-                    ))}
-                </div>
-                {/* Desktop Right */}
-                <div className="hidden md:flex items-center ml-auto">
-                    <button onClick={() => navigate("/search-books")} aria-label="Search" className="text-white text-lg mr-4 hover:text-blue-200">
-                        <FaSearch />
-                    </button>
-                    <div className="h-8 w-px bg-white mx-2"></div>
-                    <a href="/login" className="text-white hover:text-blue-200 text-lg">
-                        <u>Log in</u>
-                    </a>
-                </div>
-                {/* Hamburger */}
-                <button
-                    className="flex flex-col justify-center items-center md:hidden ml-auto h-10 w-10"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    aria-label="Toggle menu"
-                >
-                    <span className={`block h-0.5 w-6 bg-white transition-all duration-300 mb-1 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-                    <span className={`block h-0.5 w-6 bg-white transition-all duration-300 mb-1 ${menuOpen ? "opacity-0" : ""}`} />
-                    <span className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-                </button>
-            </div>
-
-            {/* Mobile Menu */}
-            {menuOpen && (
-                <div className="md:hidden bg-[#424593] w-full flex flex-col items-center z-40">
-                    <a href="/dashboard" className="text-blue-200 hover:text-white py-3 text-lg w-full text-center border-b border-blue-200 font-bold">
-                        <u>Dashboard</u>
-                    </a>
-                    {["Books", "Journals", "Guides", "Magazines", "Dictionaries", "Search Books", "Reserves"].map((item) => (
-                        <a key={item} href={`/${item.toLowerCase().replace(' ', '-')}`} className="text-white hover:text-blue-200 py-3 text-lg w-full text-center border-b border-blue-200">
-                            <u>{item}</u>
-                        </a>
-                    ))}
-                    <a href="/login" className="text-white hover:text-blue-200 py-3 text-lg w-full text-center">
-                        <u>Log in</u>
-                    </a>
-                </div>
-            )}
+            {/* Shared Navbar */}
+            <Navbar />
 
             {/* Notification Banner */}
             {showNotification && totalBorrowed > 0 && (

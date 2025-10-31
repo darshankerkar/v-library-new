@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaRegCalendarAlt, FaSearch } from "react-icons/fa";
-import Calender from "./Calender"; // adjust path if needed
+import { useState, useEffect } from "react";
+import { FaRegCalendarAlt, FaSearch, FaUserCircle } from "react-icons/fa";
+import Calender from "./Calender";
 import { useNavigate } from "react-router-dom";
 
 
@@ -8,6 +8,20 @@ function Home() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showCal, setShowCal] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem('user');
+    if (userInfo) {
+      setUser(JSON.parse(userInfo));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/');
+  };
 
   // Get today's date in desired format
   const today = new Date();
@@ -23,8 +37,10 @@ function Home() {
       <div className="min-h-screen bg-[#DFEDF5] flex flex-col">
         {/* Navbar */}
         <div className="navbar bg-[#424593] px-4 md:px-8 flex items-center sticky top-0 z-50 w-full">
-          <div className="logo pr-4 md:pr-8 py-2 flex-shrink-0">
-            <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
+          <div className="logo pr-4 md:pr-8 py-2 shrink-0">
+            <a href="/" className="cursor-pointer">
+              <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
+            </a>
           </div>
           {/* Desktop Menu */}
           <div className="hidden md:flex flex-1 items-center gap-x-8 ">
@@ -71,14 +87,28 @@ function Home() {
               <u>Reserves</u>
             </a>
           </div>
-          {/* Desktop Search & Login */}
+          {/* Desktop Search & Login/User Profile */}
           <div className="hidden md:flex items-center ml-auto">
             <FaSearch className="text-white text-lg mr-4" />
             <div className="h-8 w-px bg-white mx-2"></div>
             <div className="log-in py-2">
-              <a href="/login" className="text-white hover:text-blue-500 text-lg">
-                <u>Log in</u>
-              </a>
+              {user ? (
+                <div className="flex items-center gap-3">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" />
+                  ) : (
+                    <FaUserCircle className="text-white text-2xl" />
+                  )}
+                  <span className="text-white text-lg">{user.displayName}</span>
+                  <button onClick={handleLogout} className="text-white hover:text-red-400 text-lg">
+                    <u>Logout</u>
+                  </button>
+                </div>
+              ) : (
+                <a href="/login" className="text-white hover:text-blue-500 text-lg">
+                  <u>Log in</u>
+                </a>
+              )}
             </div>
           </div>
           {/* Hamburger Icon (mobile only) */}
@@ -158,12 +188,28 @@ function Home() {
             <div className="flex items-center w-full">
               <div className="h-6 w-px bg-blue-200 mx-auto"></div>
             </div>
-            <a
-              href="/login"
-              className="text-white hover:text-blue-500 py-2 text-lg w-full text-center"
-            >
-              <u>Log in</u>
-            </a>
+            {user ? (
+              <div className="flex flex-col items-center gap-3 text-white py-2 text-lg w-full text-center">
+                <div className="flex items-center gap-3">
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" />
+                  ) : (
+                    <FaUserCircle className="text-white text-2xl" />
+                  )}
+                  <span>{user.displayName}</span>
+                </div>
+                <button onClick={handleLogout} className="text-white hover:text-red-400 text-lg">
+                  <u>Logout</u>
+                </button>
+              </div>
+            ) : (
+              <a
+                href="/login"
+                className="text-white hover:text-blue-500 py-2 text-lg w-full text-center"
+              >
+                <u>Log in</u>
+              </a>
+            )}
           </div>
         )}
 
