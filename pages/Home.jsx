@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaRegCalendarAlt, FaSearch } from "react-icons/fa";
 import Calender from "./Calender"; // adjust path if needed
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 function Home() {
@@ -23,11 +23,14 @@ function Home() {
       <div className="min-h-screen bg-[#DFEDF5] flex flex-col">
         {/* Navbar */}
         <div className="navbar bg-[#424593] px-4 md:px-8 flex items-center sticky top-0 z-50 w-full">
-          <div className="logo pr-4 md:pr-8 py-2 flex-shrink-0">
-            <img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" />
+          <div className="logo pr-4 md:pr-8 py-2 shrink-0">
+            <Link to="/" aria-label="Go to home"><img src="/Logo-VIT.png" alt="VIT Logo" className="h-15 w-auto" /></Link>
           </div>
           {/* Desktop Menu */}
           <div className="hidden md:flex flex-1 items-center gap-x-8 ">
+            <a href="/dashboard" className="text-white hover:text-blue-500 text-lg">
+              <u>Dashboard</u>
+            </a>
             <a href="/books" className="text-white hover:text-blue-500 text-lg">
               <u>Books</u>
             </a>
@@ -54,6 +57,12 @@ function Home() {
               className="text-white hover:text-blue-500 text-lg"
             >
               <u>Dictionaries</u>
+            </a>
+            <a
+              href="/search-books"
+              className="text-white hover:text-blue-500 text-lg"
+            >
+              <u>Search Books</u>
             </a>
             <a
               href="/reserves"
@@ -99,6 +108,12 @@ function Home() {
         {menuOpen && (
           <div className="md:hidden bg-[#424593] w-full flex flex-col items-center z-40 sticky top-[70px]">
             <a
+              href="/dashboard"
+              className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200"
+            >
+              <u>Dashboard</u>
+            </a>
+            <a
               href="/books"
               className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200"
             >
@@ -127,6 +142,12 @@ function Home() {
               className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200"
             >
               <u>Dictionaries</u>
+            </a>
+            <a
+              href="/search-books"
+              className="text-white hover:text-blue-500 py-2 text-lg w-full text-center border-b border-blue-200"
+            >
+              <u>Search Books</u>
             </a>
             <a
               href="/reserves"
@@ -441,11 +462,13 @@ function Home() {
               {/* Logo and Subscribe */}
               <div className="flex flex-col items-center md:items-start md:w-1/4 mb-8 md:mb-0">
                 <div className="flex flex-col sm:flex-row items-center md:items-start mb-6">
-                  <img
-                    src="/Logo-VIT.png"
-                    alt="VIT Logo"
-                    className="h-16 sm:h-20 mr-0 sm:mr-3 mb-2 sm:mb-0"
-                  />
+                  <Link to="/" aria-label="Go to home">
+                    <img
+                      src="/Logo-VIT.png"
+                      alt="VIT Logo"
+                      className="h-16 sm:h-20 mr-0 sm:mr-3 mb-2 sm:mb-0"
+                    />
+                  </Link>
                 </div>
                 <form className="flex w-full max-w-xs mt-2">
                   <input
