@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Full-Stack Additions
+.env
+backend/node_modules
+backend/*.js
+!backend/server.js
+!backend/init_db.js
+!backend/db/*.js
+!backend/routes/*.js

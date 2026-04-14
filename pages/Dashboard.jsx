@@ -45,6 +45,12 @@ function Dashboard() {
     const navigate = useNavigate();
     const [borrowedBooks, setBorrowedBooks] = useState([]);
     const [showNotification, setShowNotification] = useState(false);
+    const [dbStats, setDbStats] = useState({
+        totalBooks: 0,
+        totalMembers: 0,
+        borrowedBooks: 0,
+        overdueBooks: 0
+    });
     
     // Derived stats for the cards
     const totalBorrowed = borrowedBooks.length;
@@ -69,10 +75,20 @@ function Dashboard() {
         if (hasUrgent && borrowed.length > 0) {
             setShowNotification(true);
         }
+
+        // Fetch DB Stats
+        fetch('http://localhost:3000/api/stats')
+            .then(res => res.json())
+            .then(data => setDbStats(data))
+            .catch(err => console.error("Error fetching stats:", err));
     }, []);
 
     const handleReturn = (bookIndex) => {
         const book = borrowedBooks[bookIndex];
+        // Send to backend if available
+        if(book.borrow_id) {
+           fetch(`http://localhost:3000/api/borrow/return/${book.borrow_id}`, { method: "POST"}).catch(console.error);
+        }
         
         // Remove from localStorage
         const updated = borrowedBooks.filter((_, index) => index !== bookIndex);
@@ -130,24 +146,31 @@ function Dashboard() {
                 <p className="text-xl text-gray-700 mb-8 pl-4 md:pl-0">Quick summary and current borrowings</p>
 
                 {/* Statistics Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     <StatCard 
-                        title="Borrowed Books" 
-                        value={totalBorrowed} 
+                        title="Total Books (DB)" 
+                        value={dbStats.totalBooks} 
+                        icon={FaBookOpen} 
+                        colorClass="text-indigo-600"
+                        bgColorClass="bg-indigo-600"
+                    />
+                    <StatCard 
+                        title="Total Members (DB)" 
+                        value={dbStats.totalMembers} 
+                        icon={FaBookOpen} 
+                        colorClass="text-green-600"
+                        bgColorClass="bg-green-600"
+                    />
+                    <StatCard 
+                        title="Borrowed (DB)" 
+                        value={dbStats.borrowedBooks} 
                         icon={FaBookOpen} 
                         colorClass="text-blue-600"
                         bgColorClass="bg-blue-600"
                     />
                     <StatCard 
-                        title="Due Soon (7 Days)" 
-                        value={dueSoonCount} 
-                        icon={FaHourglassHalf} 
-                        colorClass="text-yellow-600"
-                        bgColorClass="bg-yellow-600"
-                    />
-                    <StatCard 
-                        title="Overdue" 
-                        value={overdueCount} 
+                        title="Overdue (DB)" 
+                        value={dbStats.overdueBooks} 
                         icon={FaExclamationCircle} 
                         colorClass="text-red-600"
                         bgColorClass="bg-red-600"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // --- Custom SVG Icons (to replace react-icons/fa) ---
 const SearchIcon = (props) => (
@@ -53,12 +53,20 @@ function Reserves() {
     },
   ];
 
-  const PlaceholderReserves = [
-    { course: "Computer Networks", item: "Reserved Slides (3-day loan)" },
-    { course: "Operating Systems", item: "E-book: Reference Copy (Digital Access)" },
-    { course: "Microprocessors Lab", item: "Lab Manual (2-hour loan)" },
-    { course: "Data Structures", item: "Textbook Chapter 5 (Photocopy - 2 hr)" },
-  ];
+  useEffect(() => {
+      fetch("http://localhost:3000/api/reservations")
+        .then(res => res.json())
+        .then(data => {
+            const mapped = data.map(r => ({
+               course: r.title,
+               item: `Reserved by ${r.full_name} (Expires ${new Date(r.expires_on).toLocaleDateString()})`
+            }));
+            setDbReserves(mapped);
+        })
+        .catch(console.error);
+    }, []);
+  
+  const PlaceholderReserves = dbReserves;
 
   return (
     <div className="min-h-screen bg-[#F5F9FF] flex flex-col">
