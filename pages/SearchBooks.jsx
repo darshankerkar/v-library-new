@@ -257,12 +257,37 @@ const sampleBooks = [
 
 function SearchBooks() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState(sampleBooks);
+  const [allBooks, setAllBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showWishlist, setShowWishlist] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState(new Set(subjects));
   const [subjectMenuOpen, setSubjectMenuOpen] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/books")
+      .then(res => res.json())
+      .then(data => {
+         const formatted = data.map(book => ({
+            id: book.book_id,
+            title: book.title,
+            author: book.author_name || "Unknown",
+            isbn: book.isbn,
+            subject: book.genre || "General",
+            category: book.genre || "General",
+            totalCopies: book.total_copies,
+            availableCopies: Number(book.available_copies) || 0,
+            availability: Number(book.available_copies) > 0 ? "Available" : "Not Available",
+            cover: `/Book${(book.book_id % 15) + 1 || 1}${book.book_id % 2 === 0 ? '.jpg' : '.jpeg'}`,
+            description: "Book fetched from Neon Database",
+            year: "N/A",
+         }));
+         setAllBooks(formatted);
+         setFilteredBooks(formatted);
+      })
+      .catch(console.error);
+  }, []);
 
   // Load wishlist from localStorage on component mount
   useEffect(() => {
@@ -281,7 +306,7 @@ function SearchBooks() {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
-    const filtered = sampleBooks.filter((book) => {
+    const filtered = allBooks.filter((book) => {
       const matchesQuery =
         book.title.toLowerCase().includes(query) ||
         book.author.toLowerCase().includes(query) ||
@@ -302,7 +327,7 @@ function SearchBooks() {
 
     // Re-run filter using the latest query and branches
     const query = searchQuery.toLowerCase();
-    const filtered = sampleBooks.filter((book) => {
+    const filtered = allBooks.filter((book) => {
       const matchesQuery =
         book.title.toLowerCase().includes(query) ||
         book.author.toLowerCase().includes(query) ||
@@ -346,7 +371,18 @@ function SearchBooks() {
       category: book.category,
     };
 
-    // Save to localStorage
+    // Trigger backend borrow
+    fetch("http://localhost:3000/api/borrow", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+         book_id: book.id,
+         member_id: 1,
+         due_date: new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      })
+    }).catch(console.error);
+
+    // Save to localStorage for immediate UI continuity
     const borrowed = JSON.parse(localStorage.getItem("borrowed") || "[]");
     borrowed.push(borrowedBook);
     localStorage.setItem("borrowed", JSON.stringify(borrowed));
@@ -501,7 +537,7 @@ function SearchBooks() {
                             const next = new Set(subjects);
                             setSelectedSubjects(next);
                             const query = searchQuery.toLowerCase();
-                            const filtered = sampleBooks.filter((book) => {
+                            const filtered = allBooks.filter((book) => {
                               const matchesQuery =
                                 book.title.toLowerCase().includes(query) ||
                                 book.author.toLowerCase().includes(query) ||
@@ -522,7 +558,7 @@ function SearchBooks() {
                             const next = new Set();
                             setSelectedSubjects(next);
                             const query = searchQuery.toLowerCase();
-                            const filtered = sampleBooks.filter((book) => {
+                            const filtered = allBooks.filter((book) => {
                               const matchesQuery =
                                 book.title.toLowerCase().includes(query) ||
                                 book.author.toLowerCase().includes(query) ||

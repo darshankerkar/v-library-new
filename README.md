@@ -1,124 +1,79 @@
-# VLibrary
+# VLibrary - Full-Stack Library Management System (DBMS)
 
-VLibrary is a digital library platform built with **React + Vite**, integrated with **Firebase Authentication (Google Login)** and **Firestore**.  
-It provides a seamless way for students to access **Books, Journals, Guides, Magazines, Dictionaries, and Reserves** from one place.
-
----
-
-## Overview
-
-VLibrary aims to make learning resources easily accessible anytime, anywhere.
-With secure Google Authentication and a clean, responsive interface, users can quickly browse, read, and manage library content.
-It’s designed to enhance the academic experience with a simple yet powerful online library solution.
-
-## Features
-- 🔐 Google Authentication – Sign in securely using your Google account
-- 📚 Multiple Sections – Explore Books, Journals, Guides, Magazines, Dictionaries, and Reserves
-- ⚡ Fast & Lightweight – Built with Vite for optimal performance
-- 📱 Responsive Design – Fully adaptable UI for mobile, tablet, and desktop
-- ☁️ Cloud Integration – All data securely stored in Firebase Firestore
-- 🔎 User-Friendly Interface – Simple navigation and intuitive layout
+VLibrary is a comprehensive digital library platform transformed into a full-stack **DBMS project**. It utilizes a modern tech stack to handle book inventory, member registrations, and real-time borrowing transactions with automated fine calculations.
 
 ---
 
-## Tech Stack
-- **Frontend:** React + Vite
-- **UI Styling:** Tailwind CSS + Bootstrap
-- **Backend / Auth:** Firebase Authentication
-- **Database:** Firestore & Postgress
-- **Deployment:** Vercel
+## 🚀 Getting Started
 
----
+To run this project locally, follow these steps in order:
 
-## Installation & Setup
+### 1. Database Setup (Neon PostgreSQL)
+The project uses a Neon PostgreSQL database. Ensure your `.env` file in the `backend/` folder contains the correct `DATABASE_URL`.
 
-#### Clone the repository
+**Initialize the Database:**
+This step creates the tables and inserts initial sample data.
 ```bash
-git clone https://github.com/<your-username>/v-library-new.git
+cd backend
+npm run init-db
 ```
 
-#### Navigate to project directory
+### 2. Start the Backend (Node.js + Express)
+Open a new terminal and run:
 ```bash
-cd vite-project
+cd backend
+npm run dev
 ```
+The server will start on `http://localhost:3000`.
 
-#### Install dependencies
-```bash
-npm install
-```
-
-#### Run the development server
+### 3. Start the Frontend (React + Vite)
+Open another terminal (in the root project directory) and run:
 ```bash
 npm run dev
 ```
-
-The app will be available at 👉 http://localhost:5173
-
----
-
-## Future Enhancements
-
-- 📖 E-book Reader Integration for seamless reading within the app
-- 🧠 AI-powered Book Recommendations
-- 🧩 Advanced Search & Filters by author, subject, or publication
-- 📬 Email Notifications for new resource updates
-- 🏫 Admin Dashboard for managing uploads and users
+The frontend will be available at `http://localhost:5173`.
 
 ---
 
-Got it 👍 — here’s your **GitHub-ready version** of that section with your repo name `v-library-new.git` properly updated everywhere:
+## 🛠️ Tech Stack
+- **Frontend:** React 19, Vite, Tailwind CSS v4, Bootstrap 5
+- **Backend:** Node.js, Express.js
+- **Database:** Neon PostgreSQL (Cloud)
+- **Database Driver:** `pg` (node-postgres)
 
 ---
 
-### Contributing  
-Contributions are highly appreciated!  
-If you’d like to improve **VLibrary**, follow the steps below to contribute:  
-
-1. **Fork the Repository**  
-   Click on the **Fork** button at the top-right of this repo to create your own copy.  
-
-2. **Clone Your Fork**  
-   ```bash
-   git clone https://github.com/<your-username>/v-library-new.git
-   cd v-library-new/vite-project
-   ```
-
-3. **Create a New Branch**  
-   ```bash
-   git checkout -b feature/add-search-bar
-   ```
-
-4. **Make Your Changes**  
-   Follow existing code style and ensure responsiveness is maintained.  
-
-5. **Test Your Changes**  
-   ```bash
-   npm run dev
-   ```
-
-6. **Commit & Push**  
-   ```bash
-   git add .
-   git commit -m "Added search bar to library section"
-   git push origin feature/add-search-bar
-   ```
-
-7. **Submit a Pull Request**  
-   Go to your forked repository → click **Compare & pull request** → describe your changes clearly.  
-
-8. **Code Review**  
-   Your PR will be reviewed. Be open to suggestions and requested edits.  
+## 📂 Project Structure
+- `/pages`: React components for Dashboard, Search, Librarian controls, etc.
+- `/backend`: Express server logic.
+  - `/routes`: API endpoints for Books, Members, Borrowing, and Fines.
+  - `database_schema.sql`: SQL code for the relational schema.
+  - `seed_data.sql`: Initial sample data.
 
 ---
 
-### Tips for Smooth Contribution  
-- **Branch Naming:** Use descriptive names like `feature/xyz`, `fix/xyz`, or `docs/xyz`.  
-- **Commit Messages:** Start with a verb — *Add, Fix, Update, Improve*.  
-- **Keep PRs Small:** Focused PRs are easier to review and merge.  
-- **Always Test:** Ensure everything runs locally before pushing changes.  
+## 📖 Key Pages to Explore
+- **Dashboard (`/dashboard`):** Real-time statistics fetched from Neon DB.
+- **Search Books (`/search-books`):** Browse and borrow books directly into the database.
+- **Librarian Dashboard (`/librarian`):** **[ADMIN]** Add new books, authors, register members, and manage fines/returns.
+- **Reserves (`/reserves`):** View currently reserved course materials from the DB.
 
 ---
 
-### 🔗 Live Preview  
-🌐 **https://v-library-new.vercel.app**
-````
+## 🏗️ Database Schema Summary
+This project implements a normalized relational database with the following entities:
+1. `authors` - Master list of writers.
+2. `books` - Catalog of book titles and ISBNs.
+3. `book_copies` - Individual physical copies with unique status tracking.
+4. `members` - Registered students and faculty.
+5. `borrow_records` - Live log of which member has which book.
+6. `reservations` - Waitlist for popular items.
+7. `fines` - Automatically generated penalty records for late returns.
+
+---
+
+## 📋 Database Implementation Features
+- **ACID Transactions:** Ensures data consistency during borrowing and returns.
+- **Referential Integrity:** Uses Foreign Keys to link authors, books, and members.
+- **Complexity:** Automated fine generation based on `due_date` comparison in SQL.
+- **Normalization:** Designed up to 3rd Normal Form (3NF) to minimize redundancy.
