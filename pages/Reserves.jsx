@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // --- Custom SVG Icons (to replace react-icons/fa) ---
 const SearchIcon = (props) => (

@@ -1,7 +1,7 @@
 import React from "react";
 import { auth, provider } from "../src/firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaRegCalendarAlt, FaSearch, FaUserCircle } from "react-icons/fa";
 import Calender from "./Calender";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 function Home() {

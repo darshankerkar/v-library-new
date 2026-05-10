@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import Navbar from "../src/components/Navbar";
 
